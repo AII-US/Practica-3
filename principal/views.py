@@ -59,7 +59,6 @@ def anime_mas_visto(request):
         recommended_animes_for_current = list(Anime.objects.filter(animeid__in=recommended_anime_ids))
         recommended_animes[anime]=(recommended_animes_for_current)
 
-    print(recommended_animes)
     return render(request, 'anime_mas_visto.html', context={'top_animes': top_animes,'recommended_animes': recommended_animes})
 
 def recomendar_anime(request):
