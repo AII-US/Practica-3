@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %} Recomendaci&oacute;n de animes {% endblock %}
+
+{% block content %}
+
+    	<form id="formulario" method="post" action=''>{% csrf_token %}
+    		<fieldset>
+    			<legend>B&uacute;squeda de Usuario</legend>
+    			{{formulario}}
+    			<BR><BR>
+
+    			<input type='submit' value='Realizar B&uacute;squeda'/>
+    		</fieldset>
+    	</form>
+	    
+	    <hr>
+
+	    {% if items %}
+		    <h4> Animes recomendadas para el usuario:</h4>
+		    <dl class="uk-description-list-line">
+
+			{% for anime, puntuacion in items %}
+			    <dd>T&iacute;tulo: {{anime.titulo}}  Puntuaci&oacute;n:{{puntuacion | floatformat:"2"}}</dd>
+			{% endfor %}
+
+			</dl>
+
+		{% endif %}
+
+{% endblock %}
