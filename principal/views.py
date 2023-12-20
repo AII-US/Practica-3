@@ -6,6 +6,9 @@ from django.shortcuts import render, redirect
 from .models import Puntuacion, Anime
 import shelve
 
+from .utils import populate_db
+
+
 def loadDict():
     Prefs={}
     shelf = shelve.open("dataRS.dat")
@@ -22,11 +25,11 @@ def loadDict():
 
 
 def load_data(request):
-    loadDict()
-    # TODO: Llama al método populate DB de utils.py y obtén las entidades de la base de datos para luego mostrarlo.
-    return render(request, 'load_data.html.html', context={'message': 'Data loaded successfully.'})
+    (num_anime, num_ratings) = populate_db()
+    return render(request, 'load_data.html', context={'message': 'Data loaded successfully: {} anime, {} ratings.'.format(num_anime, num_ratings)})
 
 def load_recommendations(request):
+    loadDict()
     # TODO: Llama al método loadRS de utils.py y obtén las entidades de la base de datos para luego mostrarlo.
     return render(request, 'load_recommendations.html', context={'message': 'Recommendations loaded successfully.'})
 
