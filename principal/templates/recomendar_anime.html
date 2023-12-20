@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %} Recomendar animes {% endblock %}
+
+{% block content %}
+    <form id="formulario" method="post" action=''>{% csrf_token %}
+        <div class="form-group">
+            <label for="idUsuario">ID del usuario</label>
+            <select class="form-control" id="idUsuario" name="idUsuario">
+                {% for anime in animes %}
+                    <option value="{{ usuario.idUsuario }}">{{ usuario.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+{% endblock %}
