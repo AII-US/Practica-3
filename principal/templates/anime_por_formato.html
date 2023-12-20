@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Animes por formato {% endblock %}
+
+{% block contenido %}
+    <form id="formulario" method="post" action=''>{% csrf_token %}
+        <div class="form-group">
+            <label for="formato">Formato</label>
+            <select class="form-control" id="formato" name="formato">
+                {% for formato in formatos %}
+                    <option value="{{ formato.id }}">{{ formato.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+{% endblock %}

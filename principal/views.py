@@ -54,7 +54,7 @@ def load_recommendations(request):
     return render(request, 'load_recommendations.html', context={'message': 'Recommendations loaded successfully.'})
 
 def anime_por_formato(request):
-    pass
+    return render(request, 'anime_por_formato.html')
 
 def anime_mas_visto(request):
     pass
