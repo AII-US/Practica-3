@@ -4,8 +4,9 @@ from principal.models import Anime, Puntuacion
 
 
 # Add your auxiliary functions here.
+path = "data"
 def populate_animes():
-    path_anime = "data/animes.csv"
+    path_anime = path + "\\animes.csv"
     animes = []
     dic = {}
     with open(path_anime, "r") as f:
@@ -23,7 +24,7 @@ def populate_animes():
     return dic
 
 def populate_ratings(dic):
-    path_ratings = "data/ratings.csv"
+    path_ratings = path + "\\ratings.csv"
     ratings = []
     with open(path_ratings, "r") as f:
         reader = csv.reader(f, delimiter=";")
