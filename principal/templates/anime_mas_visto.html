@@ -11,7 +11,20 @@
                 <strong>Géneros:</strong> {{ anime.generos }}<br>
                 <strong>Formato:</strong> {{ anime.formato }}<br>
                 <strong>Episodios:</strong> {{ anime.episodios }}<br>
-                <strong>Puntuaciones:</strong> {{ anime.num_puntuaciones }}
+                <strong>Puntuaciones:</strong> {{ anime.num_puntuaciones }}<br>
+
+                <strong>Animes Recomendados:</strong>
+                <ul>
+                    {% for recommended_anime in recommended_animes %}
+                        <li>
+                            <strong>Título:</strong> {{ recommended_anime.titulo }}<br>
+                            <strong>Géneros:</strong> {{ recommended_anime.generos }}<br>
+                            <strong>Formato:</strong> {{ recommended_anime.formato }}<br>
+                            <strong>Episodios:</strong> {{ recommended_anime.episodios }}<br>
+                            <strong>Puntuaciones:</strong> {{ recommended_anime.num_puntuaciones }}<br>
+                        </li>
+                    {% endfor %}
+                </ul>
             </li>
         {% endfor %}
     </ul>

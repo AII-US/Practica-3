@@ -39,9 +39,17 @@ def anime_por_formato(request):
 
 def anime_mas_visto(request):
     top_animes = Anime.objects.annotate(num_puntuaciones=Count('puntuacion')).order_by('-num_puntuaciones')[:3]
+    recommended_animes = {}
 
+    for anime in top_animes:
+        recommended_anime_ids = [match[1] for match in
+                                 top_matches(transform_prefs(shelve.open("dataRS.dat")['Prefs']), anime.animeid, n=3,
+                                             similarity=sim_distance)]
+        recommended_animes_for_current = list(Anime.objects.filter(animeid__in=recommended_anime_ids))
+        recommended_animes[anime]=(recommended_animes_for_current)
 
-    return render(request, 'anime_mas_visto.html', context={'top_animes': top_animes})
+    print(recommended_animes)
+    return render(request, 'anime_mas_visto.html', context={'top_animes': top_animes,'recommended_animes': recommended_animes})
 
 def recomendar_anime(request):
     return render(request, 'recomendar_anime.html')
