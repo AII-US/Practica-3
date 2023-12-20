@@ -14,4 +14,7 @@ Muestre un formulario con un una spinbox con
 la lista de formatos que hay en la BD. Cuando se seleccione un formato muestra el total
 de animes de ese formato con más de 5 episodios ordenados por número de episodios'''
 class SpinboxListaFormatoForm(forms.Form):
-    formato = forms.ChoiceField(label="Formato", widget=forms.Select, required=True)
+    formato = forms.ChoiceField(label="Formato", widget=forms.NumberInput, required=True)
+
+class SpinboxIdUsuarioForm(forms.Form):
+    idUsuario = forms.ChoiceField(label="Id de Usuario", widget=forms.NumberInput, required=True)
