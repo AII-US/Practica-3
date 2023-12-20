@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    ¿Estas seguro que deseas cargar los datos?
+{% endblock %}
+
+{% block content %}
+    <h1>¿Estas seguro que deseas cargar los datos? Si confirmas primero se borrara la base de datos y se volveran a cargar los datos</h1>
+    <a href="/load_db">Si</a>
+    <a href="/">No</a>
+    <!-- Page Content -->
+{% endblock %}

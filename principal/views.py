@@ -55,3 +55,6 @@ def load_recommendations(request):
 
 def home(request):
     return render(request, 'home.html')
+
+def confirm(request):
+    return render(request, 'confirm.html')
