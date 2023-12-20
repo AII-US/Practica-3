@@ -1,11 +1,11 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 
-from .forms import SpinboxListaFormatoForm
+from .forms import SpinboxListaFormatoForm, UsuarioBusquedaForm, SpinboxListaGeneroForm
 from .recommendations import sim_distance, sim_pearson, top_matches, get_recommendations, transform_prefs, calculate_similar_items, get_recommended_items
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
-from .models import Puntuacion, Anime
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Puntuacion, Anime, Genero
 import shelve
 from django.db.models import Count
 
@@ -22,8 +22,9 @@ def loadDict():
         rating = ra.puntuacion
         Prefs.setdefault(user, {})
         Prefs[user][animeid] = rating
-    shelf['Prefs']=Prefs
-    shelf['ItemsPrefs']=transform_prefs(Prefs)
+    shelf['Prefs'] = Prefs
+    shelf['ItemsPrefs'] = transform_prefs(Prefs)
+    shelf['SimItems'] = calculate_similar_items(Prefs, n=10)
     shelf.close()
 
 
@@ -61,8 +62,32 @@ def anime_mas_visto(request):
 
     return render(request, 'anime_mas_visto.html', context={'top_animes': top_animes,'recommended_animes': recommended_animes})
 
-def recomendar_anime(request):
-    return render(request, 'recomendar_anime.html')
+
+def recomendar_animes(request):
+    formulario = SpinboxListaGeneroForm()
+    items = None
+
+    if request.method == 'POST':
+        formulario = SpinboxListaGeneroForm(request.POST)
+
+        if formulario.is_valid():
+            genero = formulario.cleaned_data['listaGeneros']
+            idUsuario = formulario.cleaned_data['idUsuario']
+            shelf = shelve.open("dataRS.dat")
+            Prefs = shelf['Prefs']
+            SimItems = shelf['SimItems']
+            shelf.close()
+            rankings = get_recommended_items(Prefs, SimItems, int(idUsuario))
+            animes = []
+            puntuaciones = []
+            for recomendada in rankings:
+                anime = Anime.objects.get(animeid=recomendada[1])
+                genero = Genero.objects.get(genero=genero)
+                if genero in anime.generos.all():
+                    animes.append(anime)
+                    puntuaciones.append(recomendada[0])
+            items = zip(animes, puntuaciones)
+    return render(request,'recomendar_animes.html', context={'items': items, 'formulario': formulario})
 
 def home(request):
     return render(request, 'home.html')

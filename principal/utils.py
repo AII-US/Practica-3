@@ -20,6 +20,7 @@ def populate_animes():
             else:
                 episodes = int(episodes)
             generos = []
+            print(generos)
             for nombre_genero in genre.split(","):
                 nombre_genero = nombre_genero.strip()
                 if genero_dic.get(nombre_genero) == None:
@@ -31,6 +32,7 @@ def populate_animes():
             anime = Anime(animeid=int(anime_id), titulo=name, formato=type, episodios=episodes)
             anime.save()
             anime.generos.set(generos)
+            anime.save()
             dic[int(anime_id)] = anime
             anime.save()
     return dic
