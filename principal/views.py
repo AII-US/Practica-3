@@ -49,7 +49,7 @@ def anime_por_formato(request):
     return render(request, 'anime_por_formato.html', context={'form': form})
 
 def anime_mas_visto(request):
-    top_animes = Anime.objects.annotate(num_puntuaciones=Count('puntuacion')).order_by('-num_puntuaciones')[:3]
+    top_animes = Anime.objects.annotate(num_puntuaciones=Count('puntuaciones')).order_by('-num_puntuaciones')[:3]
     recommended_animes = {}
 
     for anime in top_animes:

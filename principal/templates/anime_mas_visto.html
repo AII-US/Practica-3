@@ -8,7 +8,7 @@
         {% for anime in top_animes %}
             <li>
                 <strong>Título:</strong> {{ anime.titulo }}<br>
-                <strong>Géneros:</strong> {{ anime.generos }}<br>
+                <strong>Géneros:</strong> {{ anime.generos.all }}<br>
                 <strong>Formato:</strong> {{ anime.formato }}<br>
                 <strong>Episodios:</strong> {{ anime.episodios }}<br>
                 <strong>Puntuaciones:</strong> {{ anime.num_puntuaciones }}<br>
@@ -18,7 +18,7 @@
                     {% for recommended_anime in recommended_animes %}
                         <li>
                             <strong>Título:</strong> {{ recommended_anime.titulo }}<br>
-                            <strong>Géneros:</strong> {{ recommended_anime.generos }}<br>
+                            <strong>Géneros:</strong> {{ recommended_anime.generos.all }}<br>
                             <strong>Formato:</strong> {{ recommended_anime.formato }}<br>
                             <strong>Episodios:</strong> {{ recommended_anime.episodios }}<br>
                             <strong>Puntuaciones:</strong> {{ recommended_anime.num_puntuaciones }}<br>

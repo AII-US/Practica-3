@@ -32,6 +32,7 @@ def populate_animes():
             anime.save()
             anime.generos.set(generos)
             dic[int(anime_id)] = anime
+            anime.save()
     return dic
 
 def populate_ratings(dic):
