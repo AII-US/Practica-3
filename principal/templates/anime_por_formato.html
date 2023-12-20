@@ -8,4 +8,12 @@
         {{ form.as_p }}
         <button type="submit">Buscar</button>
     </form>
+    {% if animes %}
+        <h3>Resultados de la búsqueda:</h3>
+        <ul>
+            {% for anime in animes %}
+                <li>{{ anime.titulo }} - {{ anime.generos }} - {{ anime.episodios }} episodios</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 {% endblock %}
