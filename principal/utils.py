@@ -1,16 +1,16 @@
 import csv
 import os
 
-from principal.models import Anime, Puntuacion
-
+from principal.models import Anime, Puntuacion, Genero
 
 # Add your auxiliary functions here.
 path = os.path.dirname(os.path.abspath(__file__))
 def populate_animes():
     path_anime = path + "/data/anime.csv"
-    animes = []
     dic = {}
+    genero_dic = {}
     Anime.objects.all().delete()
+    Genero.objects.all().delete()
     with open(path_anime, "r") as f:
         reader = csv.reader(f, delimiter=";")
         next(reader)
@@ -19,10 +19,19 @@ def populate_animes():
                 episodes = -1
             else:
                 episodes = int(episodes)
-            anime = Anime(animeid=int(anime_id), titulo=name, generos=genre, formato=type, episodios=episodes)
+            generos = []
+            for nombre_genero in genre.split(","):
+                nombre_genero = nombre_genero.strip()
+                if genero_dic.get(nombre_genero) == None:
+                    genero = Genero.objects.create(nombre=nombre_genero)
+                    genero_dic[nombre_genero] = genero
+                else:
+                    genero = genero_dic[nombre_genero]
+                generos.append(genero)
+            anime = Anime(animeid=int(anime_id), titulo=name, formato=type, episodios=episodes)
+            anime.save()
+            anime.generos.set(generos)
             dic[int(anime_id)] = anime
-            animes.append(anime)
-    Anime.objects.bulk_create(animes)
     return dic
 
 def populate_ratings(dic):
