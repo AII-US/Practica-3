@@ -1,51 +1,28 @@
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from .recommendations import sim_distance, sim_pearson, top_matches, get_recommendations, transform_prefs, calculate_similar_items, get_recommended_items
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
+from .models import Puntuacion, Anime
+import shelve
+
+def loadDict():
+    Prefs={}
+    shelf = shelve.open("dataRS.dat")
+    ratings = Puntuacion.objects.all()
+    for ra in ratings:
+        user = ra.idusuario.idUsuario
+        animeid = ra.animeid.animeid
+        rating = ra.puntuacion
+        Prefs.setdefault(user, {})
+        Prefs[user][animeid] = rating
+    shelf['Prefs']=Prefs
+    shelf['ItemsPrefs']=transform_prefs(Prefs)
+    shelf.close()
 
 
-# Create your views here.
-def login_petition(request):
-    """
-    Handle the login petition.
-
-    Args:
-        request (HttpRequest): The request object.
-
-    Returns:
-        HttpResponseRedirect or HttpResponse: The response object.
-
-    """
-    # Create an instance of the AuthenticationForm
-    form = AuthenticationForm()
-
-    if request.method == 'POST':
-        # Get the form data from the POST request
-        form = AuthenticationForm(request.POST)
-        username = request.POST['username']
-        password = request.POST['password']
-        # Authenticate the user
-        access = authenticate(username=username, password=password)
-        if access is not None:
-            if access.is_active:
-                # Log in the user
-                login(request, access)
-                # Redirect to the load_db view
-                return HttpResponseRedirect('/load_db')
-            else:
-                # Redirect to the login page with an error message
-                return redirect('/login?message=Tu cuenta no está activa&status=Error')
-        else:
-            # Redirect to the login page with an error message
-            return redirect('/login?message=Usuario o contraseña incorrectos&status=Error')
-
-    # Render the login.html template with the form
-    return render(request, 'login.html', {'form': form})
-
-
-@login_required(login_url='/login')
 def load_data(request):
+    loadDict()
     # TODO: Llama al método populate DB de utils.py y obtén las entidades de la base de datos para luego mostrarlo.
     return render(request, 'load_data.html.html', context={'message': 'Data loaded successfully.'})
 

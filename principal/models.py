@@ -1,14 +1,5 @@
 from django.db import models
 # Create your models here.
-
-'''
-(1 punto) CONSTRUIR UN MODELO DE DATOS CORRECTO en Django que almacene la
-información siguiente:
-a) Anime: Animeid, Título, Géneros, Formato de emisión (TV, movie,…), Número de
-episodios.
-b) Puntuación: IdUsario, Animeid, Puntuación (1-10)
-'''
-
 class Anime(models.Model):
     animeid = models.IntegerField(primary_key=True)
     titulo = models.TextField()
@@ -24,7 +15,7 @@ class Anime(models.Model):
 
 class Puntuacion(models.Model):
     idUsuario = models.IntegerField()
-    animeid = models.IntegerField()
+    animeid = models.ForeignKey(Anime, on_delete=models.CASCADE)
     puntuacion = models.IntegerField()
 
     def __str__(self):
