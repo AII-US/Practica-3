@@ -53,6 +53,15 @@ def load_recommendations(request):
     # TODO: Llama al método loadRS de utils.py y obtén las entidades de la base de datos para luego mostrarlo.
     return render(request, 'load_recommendations.html', context={'message': 'Recommendations loaded successfully.'})
 
+def anime_por_formato(request):
+    pass
+
+def anime_mas_visto(request):
+    pass
+
+def recomendar_anime(request):
+    pass
+
 def home(request):
     return render(request, 'home.html')
 
