@@ -12,7 +12,10 @@
         <h3>Resultados de la búsqueda:</h3>
         <ul>
             {% for anime in animes %}
-                <li>{{ anime.titulo }} - {{ anime.generos.all }} - {{ anime.episodios }} episodios</li>
+                <li>{{ anime.titulo }} - {% for genero in anime.generos.all %}
+                        {{ genero.nombre }}
+                        {% if not forloop.last %}, {% endif %}
+                    {% endfor %} - {{ anime.episodios }} episodios</li>
             {% endfor %}
         </ul>
     {% endif %}
