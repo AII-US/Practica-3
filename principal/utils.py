@@ -1,14 +1,16 @@
 import csv
+import os
 
 from principal.models import Anime, Puntuacion
 
 
 # Add your auxiliary functions here.
-path = "data"
+path = os.path.dirname(os.path.abspath(__file__))
 def populate_animes():
-    path_anime = path + "\\animes.csv"
+    path_anime = path + "/data/anime.csv"
     animes = []
     dic = {}
+    Anime.objects.all().delete()
     with open(path_anime, "r") as f:
         reader = csv.reader(f, delimiter=";")
         next(reader)
@@ -24,13 +26,14 @@ def populate_animes():
     return dic
 
 def populate_ratings(dic):
-    path_ratings = path + "\\ratings.csv"
+    path_ratings = path + "/data/ratings.csv"
     ratings = []
+    Puntuacion.objects.all().delete()
     with open(path_ratings, "r") as f:
         reader = csv.reader(f, delimiter=";")
         next(reader)
         for user_id, anime_id, rating in reader:
-            rating = Puntuacion(idUsuario=int(user_id), animeid=dic[int(anime_id)], rating=int(rating))
+            rating = Puntuacion(idUsuario=int(user_id), animeid=dic[int(anime_id)], puntuacion=int(rating))
             ratings.append(rating)
     Puntuacion.objects.bulk_create(ratings)
 
