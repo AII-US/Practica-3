@@ -7,7 +7,6 @@ from principal.views import load_data, home, load_recommendations, login_petitio
 # Add your URLs here.
 
 urlpatterns = [
-    path('login/', login_petition, name='login'),
     path('home/', home, name='home'),
     path('', home, name='home'),
     path('load_db/', load_data, name='load_db'),
