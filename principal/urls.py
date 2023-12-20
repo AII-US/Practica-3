@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib import admin
 
-from principal.views import load_data, home, load_recommendations, login_petition, confirm, anime_por_formato, \
+from principal.views import load_data, home, load_recommendations, confirm, anime_por_formato, \
     anime_mas_visto, recomendar_anime
 
 # Add your URLs here.
