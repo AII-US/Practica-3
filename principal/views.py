@@ -1,5 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
+
+from .forms import SpinboxListaFormatoForm
 from .recommendations import sim_distance, sim_pearson, top_matches, get_recommendations, transform_prefs, calculate_similar_items, get_recommended_items
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -35,7 +37,16 @@ def load_recommendations(request):
     return render(request, 'load_recommendations.html', context={'message': 'Recomendaciones cargadas correctamente.'})
 
 def anime_por_formato(request):
-    return render(request, 'anime_por_formato.html')
+    if request.method == 'POST':
+        form = SpinboxListaFormatoForm(request.POST)
+        if form.is_valid():
+            formato_seleccionado = form.cleaned_data['listaFormatos']
+            animes = Anime.objects.filter(formato=formato_seleccionado, episodios__gt=5).order_by('episodios')[:5]
+            return render(request, 'anime_por_formato.html', context={'animes': animes, 'form': form})
+    else:
+        form = SpinboxListaFormatoForm()
+
+    return render(request, 'anime_por_formato.html', context={'form': form})
 
 def anime_mas_visto(request):
     top_animes = Anime.objects.annotate(num_puntuaciones=Count('puntuacion')).order_by('-num_puntuaciones')[:3]
