@@ -3,7 +3,16 @@
 {% block title %} Animes más vistos {% endblock %}
 
 {% block content %}
+    <h2>Top 3 Animes más vistos</h2>
     <ul>
-        hola
+        {% for anime in top_animes %}
+            <li>
+                <strong>Título:</strong> {{ anime.titulo }}<br>
+                <strong>Géneros:</strong> {{ anime.generos }}<br>
+                <strong>Formato:</strong> {{ anime.formato }}<br>
+                <strong>Episodios:</strong> {{ anime.episodios }}<br>
+                <strong>Puntuaciones:</strong> {{ anime.num_puntuaciones }}
+            </li>
+        {% endfor %}
     </ul>
 {% endblock %}

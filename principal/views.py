@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .models import Puntuacion, Anime
 import shelve
+from django.db.models import Count
 
 from .utils import populate_db
 
@@ -37,7 +38,10 @@ def anime_por_formato(request):
     return render(request, 'anime_por_formato.html')
 
 def anime_mas_visto(request):
-    return render(request, 'anime_mas_visto.html')
+    top_animes = Anime.objects.annotate(num_puntuaciones=Count('puntuacion')).order_by('-num_puntuaciones')[:3]
+
+
+    return render(request, 'anime_mas_visto.html', context={'top_animes': top_animes})
 
 def recomendar_anime(request):
     return render(request, 'recomendar_anime.html')
